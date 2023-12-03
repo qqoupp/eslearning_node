@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  mysqldb:
+    container_name: llm-uni
+    platform: linux/x86_64
+    image: mysql:8.0.29
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+      - MYSQL_ROOT_PASSWORD=$MYSQLDB_ROOT_PASSWORD
+      - MYSQL_DATABASE=$MYSQLDB_DATABASE
+    ports:
+      - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
+  phpmyadmin:
+    platform: linux/amd64
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - 11819:80
+    depends_on:
+      - mysqldb 
+    environment:
+      PMA_HOSTS: mysqldb
+      PMA_USER: $MYSQLDB_USER
+      PMA_PASSWORD: $MYSQLDB_ROOT_PASSWORD
+      UPLOAD_LIMIT: 100M
+volumes:
+  db:
