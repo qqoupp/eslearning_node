@@ -10,7 +10,7 @@ module.exports = {
         autoIncrement: true
       },
       username: Sequelize.STRING(50),
-      password: Sequelize.STRING(50),
+      password: Sequelize.STRING(200),
       email: Sequelize.STRING(50),
       createdAt: Sequelize.DATE,
       updatedAt: Sequelize.DATE
