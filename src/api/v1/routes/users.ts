@@ -1,11 +1,9 @@
 import { Router } from "express";
-import addUser from '../controllers/UserContreoller';
+import {addUser,login} from '../controllers/UserContreoller';
 
 
 const userRouter= Router();
-userRouter.get("/", () => {
-    // get all ingredients
-    });
+userRouter.get("/login", login);
 userRouter.put("/:id", () => {
   // update ingredient
 });
