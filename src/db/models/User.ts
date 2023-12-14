@@ -40,7 +40,7 @@ User.init({
 }, {
     timestamps: true,
     sequelize: sequelizeConnection,
-    paranoid: true,
+    paranoid: false,
     tableName: 'User'
 });
 
