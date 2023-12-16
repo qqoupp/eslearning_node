@@ -3,7 +3,7 @@ import {addUser,login} from '../controllers/UserContreoller';
 
 
 const userRouter= Router();
-userRouter.get("/login", login);
+userRouter.post("/login", login);
 userRouter.put("/:id", () => {
   // update ingredient
 });
