@@ -1,9 +1,10 @@
 import { Router } from "express";
-import {addUser,login} from '../controllers/UserContreoller';
+import {addUser,login} from '../controllers/UserController';
+
 
 
 const userRouter= Router();
-userRouter.post("/login", login);
+userRouter.post("/login",login);
 userRouter.put("/:id", () => {
   // update ingredient
 });

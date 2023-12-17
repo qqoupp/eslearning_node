@@ -48,6 +48,7 @@ const login = async (req: Request, res: Response): Promise<void> => {
       token: token,
     });
   } catch (error) {
+    console.log('error',error);
     res.status(400).json({ error });
   };
 };
