@@ -5,6 +5,7 @@ interface UserAttributes {
     id: number;
     email: string;
     password: string;
+    username: string;
     createdAt?: Date;
     updatedAt?: Date;
     deletedAt?: Date;
@@ -17,6 +18,7 @@ class User extends Model<UserAttributes, UserInput> implements UserAttributes {
     public id!: number;
     public email!: string;
     public password!: string;
+    public username!: string;
 
     // timestamps!
     public readonly createdAt!: Date;
@@ -34,6 +36,10 @@ User.init({
         allowNull: false,
     },
     password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    username: {
         type: DataTypes.STRING,
         allowNull: false,
     },
