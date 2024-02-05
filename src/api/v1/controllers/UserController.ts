@@ -10,7 +10,7 @@ const bcrypt = require('bcrypt');
 const addUser = async (req: Request, res: Response): Promise<void> => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    const user = await User.create( { email: req.body.email, password: hashedPassword});
+    const user = await User.create( { email: req.body.email, username: req.body.username, password: hashedPassword});
     res.status(201).json(user);
   } catch (error) {
     res.status(400).json({ error });
@@ -37,10 +37,11 @@ const login = async (req: Request, res: Response): Promise<void> => {
       });
         return;
     }
-    const token = jwt.sign({ id: user.id, email: user.email }, process.env.ACCESS_TOKEN_SECRET);
-    {
-      expiresIn: "1h";
-    };
+    const token = jwt.sign(
+      { id: user.id, createdAt: user.createdAt, username: user.username, email: user.email },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "1h" }
+    );
     res.status(200).json({
       status: 200,
       success: true,
