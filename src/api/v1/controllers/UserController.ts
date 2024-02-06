@@ -2,6 +2,8 @@
 import { Request, Response } from 'express';
 import  User  from '../../../db/models/User';
 import exp from 'constants';
+import Token from '../../../db/models/Tokens';
+import {generateAccessToken, generateRefreshToken} from '../auth/token/tockenMiddleware';
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
@@ -37,16 +39,19 @@ const login = async (req: Request, res: Response): Promise<void> => {
       });
         return;
     }
-    const token = jwt.sign(
-      { id: user.id, createdAt: user.createdAt, username: user.username, email: user.email },
-      process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "1h" }
-    );
+    const token = generateAccessToken(user);
+    const refreshToken = await Token.findOne({ where: { userId: user.id } })
+    if (!refreshToken)
+    {
+      const refreshToken = generateRefreshToken(user);
+      await Token.create({ userId: user.id, token: refreshToken });
+    }
     res.status(200).json({
       status: 200,
       success: true,
       message: "User logged in successfully",
       token: token,
+      refreshToken: refreshToken?.token,
     });
   } catch (error) {
     console.log('error',error);
