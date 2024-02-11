@@ -3,11 +3,12 @@ import { Request, Response } from 'express';
 import  User  from '../../../db/models/User';
 import exp from 'constants';
 import Token from '../../../db/models/Tokens';
-import {generateAccessToken, generateRefreshToken} from '../auth/token/tockenMiddleware';
+import {generateAccessToken, generateRefreshToken, verifyAccessToken, verifyRefreshToken} from '../auth/token/tockenMiddleware';
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const bcrypt = require('bcrypt');
+let refreshed = false;
 
 const addUser = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -45,6 +46,15 @@ const login = async (req: Request, res: Response): Promise<void> => {
     {
       const refreshToken = generateRefreshToken(user);
       await Token.create({ userId: user.id, token: refreshToken });
+    }else{
+      const existingRefreshToken = verifyRefreshToken(refreshToken.token);
+      if(!existingRefreshToken.success){
+        const refreshToken = generateRefreshToken(user);
+        await Token.update({ token: refreshToken }, { where: { userId: user.id } });
+        refreshed = true;
+      }else{
+        refreshed = false;
+      }
     }
     res.status(200).json({
       status: 200,
@@ -52,6 +62,7 @@ const login = async (req: Request, res: Response): Promise<void> => {
       message: "User logged in successfully",
       token: token,
       refreshToken: refreshToken?.token,
+      refreshed: refreshed,
     });
   } catch (error) {
     console.log('error',error);
