@@ -1,31 +1,29 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import sequelizeConnection from "../config";
 
-interface UserRequestAttributes  {
+interface TokenAttributes  {
     id: number;
     userId: number;
-    input: string;
-    output: string;
+    token: string;
     createdAt?: Date;
     updatedAt?: Date;
     deletedAt?: Date;
 }
 
-export interface UserRequestInput extends Optional<UserRequestAttributes, 'id'> {}
-export interface UserRequestOutput extends Required<UserRequestAttributes> {}
+export interface TokenInput extends Optional<TokenAttributes, 'id'> {}
+export interface TokenOutput extends Required<TokenAttributes> {}
 
-class UserRequest extends Model<UserRequestAttributes, UserRequestInput> implements UserRequestAttributes {
+class Token extends Model<TokenAttributes, TokenInput> implements TokenAttributes {
     public id!: number;
     public userId!: number;
-    public input!: string;
-    public output!: string;
+    public token!: string;
 
     // timestamps!
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
     public readonly deletedAt!: Date;
 }
-UserRequest.init({
+Token.init({
     id: {
         type: DataTypes.INTEGER.UNSIGNED,
         autoIncrement: true,
@@ -39,19 +37,16 @@ UserRequest.init({
         },
         allowNull: false,
     },
-    input: {
+    token: {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    output: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
+    
 }, {
     timestamps: true,
     sequelize: sequelizeConnection,
-    paranoid: true,
-    tableName: 'UserRequest'
+    paranoid: false,
+    tableName: 'Token'
 });
 
-export default UserRequest;
+export default Token;
