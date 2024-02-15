@@ -9,7 +9,7 @@ const generateAccessToken  = (user: { id: number; createdAt:Date; username: stri
     return jwt.sign(
       { id: user.id, createdAt: user.createdAt, username: user.username, email: user.email },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: '1h' } 
+      { expiresIn: '30s' } 
     );
   };
 
@@ -18,7 +18,27 @@ const generateRefreshToken = (user:{id: number; createdAt:Date; username: string
   return jwt.sign(
     { id: user.id, createdAt: user.createdAt, username: user.username, email: user.email },
     process.env.REFRESH_TOKEN_SECRET,
-    { expiresIn: '24h' }
+    { expiresIn: '1m' }
   );
 }
-export  {generateAccessToken, generateRefreshToken};
+
+function verifyRefreshToken(token: string) {
+    try{
+        const decoded = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
+        return {success: true, data: decoded};
+    }catch(error){
+        return {success: false, error: error};
+    }
+  
+}
+function verifyAccessToken(token: string) {
+    try{
+        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+        return {success: true, data: decoded};
+    }catch(error){
+        return {success: false, error: error};
+    }
+  
+}
+
+export  {generateAccessToken, generateRefreshToken, verifyRefreshToken, verifyAccessToken};
