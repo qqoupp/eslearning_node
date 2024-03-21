@@ -1,33 +1,36 @@
-import { Request, Response } from "express";
-import OpenAI from "openai";
+import { Request, Response } from 'express';
+import { executeStreamPrompt } from '../service/LLMService';
 
-const openai = new OpenAI({
-  apiKey: process.env["OPENAI_API_KEY"], // This is the default and can be omitted
-});
-require("dotenv").config();
+export const generate = async (req: Request, res: Response) => {
+  const prompt: string = req.body.prompt;
 
-export const generate = async (req: Request, res: Response): Promise<void> => {
+  if (!prompt) {
+    return res.status(400).json({ error: 'Prompt is required.' });
+  }
+
   try {
-    const chatCompletion = await openai.chat.completions.create({
-      messages: [
-        {
-          role: "system",
-          content: "Format output using HTML",
-        },
-        {
-          role: "user",
-          content: "Explain what are the best steps to learn react",
-        },
-      ],
-      model: "gpt-3.5-turbo",
-      temperature: 0.7,
-      max_tokens: 1500,
-    });
+    const generationStream = await executeStreamPrompt(prompt);
+    console.log('Generation stream:', generationStream);
 
-    const message = chatCompletion.choices[0].message.content;
+    // Set the header to indicate a stream of text data
+    res.setHeader('Content-Type', 'text/plain');
 
-    res.status(200).json(message);
+    for await (const part of generationStream) {
+      if (part.choices && part.choices.length > 0 && part.choices[0].delta) {
+        // If the 'delta' object contains a 'text' property with the generated content
+        const text = part.choices[0].delta.content;
+        // Or if the 'delta' object contains a 'content' property with the generated content
+        // const text = part.choices[0].delta.content;
+    
+        if (text) {
+          res.write(text);
+        }
+      }
+    }
+    res.end(); // End the response after the stream is fully consumed
+
   } catch (error) {
-    res.status(400).json({ error });
+    console.error('Error generating text:', error);
+    res.status(500).json({ error: 'Error generating text.' });
   }
 };

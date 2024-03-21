@@ -1,8 +1,8 @@
 import { Router } from "express";
-import {generate} from '../controllers/LLMController';
+import { generate } from "../controllers/LLMController";
 
 const llmRequestRouter= Router();
 
-llmRequestRouter.get("/", generate);
+llmRequestRouter.post("/", generate);
 
 export default llmRequestRouter;
