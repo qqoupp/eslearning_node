@@ -21,6 +21,10 @@ UserRequest.init({
         },
         allowNull: false,
     },
+    technology: {
+        type: sequelize_1.DataTypes.TEXT,
+        allowNull: false,
+    },
     input: {
         type: sequelize_1.DataTypes.TEXT,
         allowNull: false,

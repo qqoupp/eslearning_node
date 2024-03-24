@@ -17,6 +17,10 @@ module.exports = {
           key: "id",
         },
       },
+      technology:{
+        type: Sequelize.TEXT,
+        allowNull: false,
+      },
       input: {
         type: Sequelize.TEXT,
         allowNull: false,
