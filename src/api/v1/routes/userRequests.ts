@@ -1,11 +1,9 @@
 import { Router } from "express";
-import addUserRequest from '../controllers/UserRequestController';
+import { addUserRequest, getAllUserRequestsByUserId } from "../controllers/UserRequestController";
 
 const userRequestRouter= Router();
 
-userRequestRouter.get("/", () => {
-    // get all ingredients
-    });
+userRequestRouter.get("/:userId", getAllUserRequestsByUserId);
 userRequestRouter.put("/:id", () => {
   // update ingredient
 });

@@ -18,11 +18,11 @@ module.exports = {
         },
       },
       input: {
-        type: Sequelize.DataTypes.STRING,
+        type: Sequelize.TEXT,
         allowNull: false,
       },
       output: {
-        type: Sequelize.DataTypes.STRING,
+        type: Sequelize.TEXT,
         allowNull: false,
       },
       createdAt: Sequelize.DATE,

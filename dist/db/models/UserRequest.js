@@ -22,17 +22,17 @@ UserRequest.init({
         allowNull: false,
     },
     input: {
-        type: sequelize_1.DataTypes.STRING,
+        type: sequelize_1.DataTypes.TEXT,
         allowNull: false,
     },
     output: {
-        type: sequelize_1.DataTypes.STRING,
+        type: sequelize_1.DataTypes.TEXT,
         allowNull: false,
     },
 }, {
     timestamps: true,
     sequelize: config_1.default,
-    paranoid: true,
+    // paranoid: true,
     tableName: 'UserRequest'
 });
 exports.default = UserRequest;

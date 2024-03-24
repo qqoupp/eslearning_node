@@ -40,17 +40,17 @@ UserRequest.init({
         allowNull: false,
     },
     input: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false,
     },
     output: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false,
     },
 }, {
     timestamps: true,
     sequelize: sequelizeConnection,
-    paranoid: true,
+    // paranoid: true,
     tableName: 'UserRequest'
 });
 
