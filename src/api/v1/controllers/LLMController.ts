@@ -17,11 +17,8 @@ export const generate = async (req: Request, res: Response) => {
 
     for await (const part of generationStream) {
       if (part.choices && part.choices.length > 0 && part.choices[0].delta) {
-        // If the 'delta' object contains a 'text' property with the generated content
         const text = part.choices[0].delta.content;
-        // Or if the 'delta' object contains a 'content' property with the generated content
-        // const text = part.choices[0].delta.content;
-    
+
         if (text) {
           res.write(text);
         }

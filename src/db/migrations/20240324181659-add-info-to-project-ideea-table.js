@@ -32,7 +32,7 @@ module.exports = {
   }
     ]
 
-    //insert to Technology table
+   
     await queryInterface.bulkInsert('ProjectIdeea', data.map((item) => {
       return {
         name: item.name,

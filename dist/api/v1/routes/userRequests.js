@@ -7,9 +7,7 @@ userRequestRouter.get("/:userId", UserRequestController_1.getAllUserRequestsByUs
 userRequestRouter.put("/:id", () => {
     // update ingredient
 });
-userRequestRouter.delete("/:id", () => {
-    // delete ingredient
-});
+userRequestRouter.delete("/:id", UserRequestController_1.deleteUserRequest);
 userRequestRouter.post("/", UserRequestController_1.addUserRequest);
 exports.default = userRequestRouter;
 //# sourceMappingURL=userRequests.js.map

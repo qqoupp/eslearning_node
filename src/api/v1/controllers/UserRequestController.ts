@@ -14,6 +14,17 @@ const addUserRequest = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+const deleteUserRequest = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const deletedUserRequest = await UserRequest.destroy({ where: { id } });
+
+    res.status(200).json(deletedUserRequest);
+  } catch (error) {
+    res.status(400).json({ error });
+  }
+}
+
 const getAllUserRequestsByUserId = async (req: Request, res: Response): Promise<void> => {
   try {
       // Extracting userId from the request parameters
@@ -38,4 +49,4 @@ const getAllUserRequestsByUserId = async (req: Request, res: Response): Promise<
       res.status(500).json({ message: "Internal server error while fetching user requests." });
   }
 };
- export { addUserRequest, getAllUserRequestsByUserId}
+ export { addUserRequest, getAllUserRequestsByUserId, deleteUserRequest}

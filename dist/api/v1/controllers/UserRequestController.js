@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllUserRequestsByUserId = exports.addUserRequest = void 0;
+exports.deleteUserRequest = exports.getAllUserRequestsByUserId = exports.addUserRequest = void 0;
 const Associations_1 = require("../../../db/models/Associations");
 const addUserRequest = async (req, res) => {
     try {
@@ -13,6 +13,17 @@ const addUserRequest = async (req, res) => {
     }
 };
 exports.addUserRequest = addUserRequest;
+const deleteUserRequest = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deletedUserRequest = await Associations_1.UserRequest.destroy({ where: { id } });
+        res.status(200).json(deletedUserRequest);
+    }
+    catch (error) {
+        res.status(400).json({ error });
+    }
+};
+exports.deleteUserRequest = deleteUserRequest;
 const getAllUserRequestsByUserId = async (req, res) => {
     try {
         // Extracting userId from the request parameters
