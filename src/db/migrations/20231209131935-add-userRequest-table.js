@@ -17,12 +17,16 @@ module.exports = {
           key: "id",
         },
       },
+      technology:{
+        type: Sequelize.TEXT,
+        allowNull: false,
+      },
       input: {
-        type: Sequelize.DataTypes.STRING,
+        type: Sequelize.TEXT,
         allowNull: false,
       },
       output: {
-        type: Sequelize.DataTypes.STRING,
+        type: Sequelize.TEXT,
         allowNull: false,
       },
       createdAt: Sequelize.DATE,

@@ -4,6 +4,7 @@ import sequelizeConnection from "../config";
 interface UserRequestAttributes  {
     id: number;
     userId: number;
+    technology: string;
     input: string;
     output: string;
     createdAt?: Date;
@@ -17,6 +18,7 @@ export interface UserRequestOutput extends Required<UserRequestAttributes> {}
 class UserRequest extends Model<UserRequestAttributes, UserRequestInput> implements UserRequestAttributes {
     public id!: number;
     public userId!: number;
+    public technology!: string;
     public input!: string;
     public output!: string;
 
@@ -39,18 +41,22 @@ UserRequest.init({
         },
         allowNull: false,
     },
+    technology: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+    },
     input: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false,
     },
     output: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false,
     },
 }, {
     timestamps: true,
     sequelize: sequelizeConnection,
-    paranoid: true,
+    // paranoid: true,
     tableName: 'UserRequest'
 });
 

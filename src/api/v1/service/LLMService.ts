@@ -14,7 +14,7 @@ export const executeStreamPrompt = async (prompt: string) => {
     messages: [{ role: 'user', content: prompt }],
     max_tokens: chat_gpt_max_tokens,
     temperature: chat_gpt_temperature,
-  });
+  }); 
 
   return stream;
 };
