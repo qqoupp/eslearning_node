@@ -44,6 +44,7 @@ const login = async (req: Request, res: Response): Promise<void> => {
     const refreshToken = await Token.findOne({ where: { userId: user.id } })
     if (!refreshToken)
     {
+      
       const refreshToken = generateRefreshToken(user);
       await Token.create({ userId: user.id, token: refreshToken });
     }else{

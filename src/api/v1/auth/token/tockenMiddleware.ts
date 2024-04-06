@@ -9,7 +9,7 @@ const generateAccessToken  = (user: { id: number; createdAt:Date; username: stri
     return jwt.sign(
       { id: user.id, createdAt: user.createdAt, username: user.username, email: user.email },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: '30s' } 
+      { expiresIn: '1m' } 
     );
   };
 
@@ -18,7 +18,7 @@ const generateRefreshToken = (user:{id: number; createdAt:Date; username: string
   return jwt.sign(
     { id: user.id, createdAt: user.createdAt, username: user.username, email: user.email },
     process.env.REFRESH_TOKEN_SECRET,
-    { expiresIn: '1m' }
+    { expiresIn: '30d' }
   );
 }
 

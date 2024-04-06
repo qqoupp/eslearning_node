@@ -10,7 +10,6 @@ export const generate = async (req: Request, res: Response) => {
 
   try {
     const generationStream = await executeStreamPrompt(prompt);
-    console.log('Generation stream:', generationStream);
 
     // Set the header to indicate a stream of text data
     res.setHeader('Content-Type', 'text/plain');
