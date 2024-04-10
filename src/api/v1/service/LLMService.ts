@@ -6,14 +6,14 @@ const openai = new OpenAI({
 
 export const executeStreamPrompt = async (prompt: string) => {
   const chat_gpt_temperature = 0.7;
-  const chat_gpt_max_tokens = 10000;
+  const chat_gpt_max_tokens = 16000;
 
   const stream = await openai.chat.completions.create({
     model: 'gpt-3.5-turbo-16k',
     stream: true,
     messages: [{
       role: 'system',
-      content: `Generate a JSON with each instruction grouped by the technology used. 
+      content: `Generate a JSON with each instruction grouped by the technology used. Generate at least 7 instructions for each technology. 
         Adhere to the following format:
         {
           "technologies": [

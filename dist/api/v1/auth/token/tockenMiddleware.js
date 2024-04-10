@@ -4,11 +4,11 @@ exports.verifyAccessToken = exports.verifyRefreshToken = exports.generateRefresh
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const generateAccessToken = (user) => {
-    return jwt.sign({ id: user.id, createdAt: user.createdAt, username: user.username, email: user.email }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30s' });
+    return jwt.sign({ id: user.id, createdAt: user.createdAt, username: user.username, email: user.email }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1m' });
 };
 exports.generateAccessToken = generateAccessToken;
 const generateRefreshToken = (user) => {
-    return jwt.sign({ id: user.id, createdAt: user.createdAt, username: user.username, email: user.email }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1m' });
+    return jwt.sign({ id: user.id, createdAt: user.createdAt, username: user.username, email: user.email }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '30d' });
 };
 exports.generateRefreshToken = generateRefreshToken;
 function verifyRefreshToken(token) {

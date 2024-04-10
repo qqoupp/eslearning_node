@@ -9,7 +9,6 @@ const generate = async (req, res) => {
     }
     try {
         const generationStream = await (0, LLMService_1.executeStreamPrompt)(prompt);
-        console.log('Generation stream:', generationStream);
         // Set the header to indicate a stream of text data
         res.setHeader('Content-Type', 'text/plain');
         for await (const part of generationStream) {
