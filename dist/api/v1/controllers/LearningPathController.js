@@ -3,44 +3,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getLearningPath = exports.addLearningPath = void 0;
+exports.bulkAddLearningPaths = exports.deleteLearningPath = exports.getLearningPath = void 0;
 const LearningPath_1 = __importDefault(require("../../../db/models/LearningPath"));
-const addLearningPath = async (req, res) => {
-    try {
-        const { userId, name, instruction, description, completed, output } = req.body;
-        const learningPath = await LearningPath_1.default.create({
-            userId,
-            name,
-            instruction,
-            description,
-            completed,
-            output,
-        });
-        res.status(201).json(learningPath);
-    }
-    catch (error) {
-        res.status(400).json({ error });
-    }
-};
-exports.addLearningPath = addLearningPath;
 const getLearningPath = async (req, res) => {
     try {
-        // Extracting userId from the request parameters
         const userId = parseInt(req.params.userId, 10);
-        // Check if userId is valid
         if (isNaN(userId)) {
             res.status(400).json({ message: "Invalid userId provided." });
             return;
         }
-        // Querying the database for all requests with the specified userId
         const learningPath = await LearningPath_1.default.findAll({
             where: { userId: userId },
         });
-        // Sending back the found requests
         res.status(200).json(learningPath);
     }
     catch (error) {
-        // Log the error and send back a generic error message
         console.error("Error fetching user requests by userId:", error);
         res
             .status(500)
@@ -48,4 +25,43 @@ const getLearningPath = async (req, res) => {
     }
 };
 exports.getLearningPath = getLearningPath;
+const deleteLearningPath = async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const deletedLearningPath = await LearningPath_1.default.destroy({ where: { userId } });
+        res.status(200).json(deletedLearningPath);
+    }
+    catch (error) {
+        res.status(400).json({ error });
+    }
+};
+exports.deleteLearningPath = deleteLearningPath;
+const bulkAddLearningPaths = async (req, res) => {
+    const { technologies } = req.body; // Assuming userId is sent along with the technologies in the body
+    const userId = parseInt(req.params.userId, 10);
+    try {
+        // First, delete existing entries for this user
+        await LearningPath_1.default.destroy({ where: { userId } });
+        // Then, iterate over each technology and its instructions to add them to the database
+        for (let tech of technologies) {
+            for (let instruction of tech.instructions) {
+                await LearningPath_1.default.create({
+                    userId,
+                    name: tech.name,
+                    instruction: instruction.instruction,
+                    description: instruction.description,
+                    // Assuming 'output' and 'completed' are not part of the JSON and setting default values
+                    output: '',
+                    completed: false,
+                });
+            }
+        }
+        res.status(201).json({ message: "Learning paths added successfully." });
+    }
+    catch (error) {
+        console.error("Error adding learning paths:", error);
+        res.status(500).json({ error: "An error occurred while adding learning paths." });
+    }
+};
+exports.bulkAddLearningPaths = bulkAddLearningPaths;
 //# sourceMappingURL=LearningPathController.js.map
