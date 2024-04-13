@@ -1,18 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.executeStreamPrompt = void 0;
+exports.InstructionStream = exports.executeStreamPrompt = void 0;
 const openai_1 = require("openai");
 const openai = new openai_1.OpenAI({
-    apiKey: process.env['OPENAI_API_KEY'],
+    apiKey: process.env["OPENAI_API_KEY"],
 });
 const executeStreamPrompt = async (prompt) => {
     const chat_gpt_temperature = 0.7;
-    const chat_gpt_max_tokens = 16000;
+    const chat_gpt_max_tokens = 4096;
     const stream = await openai.chat.completions.create({
-        model: 'gpt-3.5-turbo-16k',
+        model: "gpt-3.5-turbo-0125",
+        response_format: { type: "json_object" },
         stream: true,
-        messages: [{
-                role: 'system',
+        messages: [
+            {
+                role: "system",
                 content: `Generate a JSON with each instruction grouped by the technology used. Generate at least 7 instructions for each technology. 
         Adhere to the following format:
         {
@@ -46,11 +48,49 @@ const executeStreamPrompt = async (prompt) => {
           ]
         }
       `,
-            }, { role: 'user', content: prompt }],
+            },
+            { role: "user", content: prompt },
+        ],
         max_tokens: chat_gpt_max_tokens,
         temperature: chat_gpt_temperature,
     });
     return stream;
 };
 exports.executeStreamPrompt = executeStreamPrompt;
+const InstructionStream = async (prompt) => {
+    const chat_gpt_temperature = 0.7;
+    const chat_gpt_max_tokens = 4000;
+    const stream = await openai.chat.completions.create({
+        model: "gpt-3.5-turbo-0125",
+        response_format: { type: "json_object" },
+        stream: true,
+        messages: [
+            {
+                role: "system",
+                content: `explain teh task with the following json format: 
+        {
+          "task": [
+            {
+              "step": "Step 1",
+              "solution": "Solution "
+              ]
+            },
+            
+            {
+              "step": "Step 2",
+              "solution": "Solution "
+              ]
+            }
+          ]
+        }
+      `,
+            },
+            { role: "user", content: prompt },
+        ],
+        max_tokens: chat_gpt_max_tokens,
+        temperature: chat_gpt_temperature,
+    });
+    return stream;
+};
+exports.InstructionStream = InstructionStream;
 //# sourceMappingURL=LLMService.js.map
