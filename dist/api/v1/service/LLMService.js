@@ -67,7 +67,7 @@ const InstructionStream = async (prompt) => {
         messages: [
             {
                 role: "system",
-                content: `explain teh task with the following json format: 
+                content: `explain teh task using the following json format: 
         {
           "task": [
             {
