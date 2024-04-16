@@ -9,11 +9,13 @@ const bulkAddLearningPathInstructions = async (
 ): Promise<void> => {
   const { task } = req.body;
   const learningPathId = parseInt(req.params.learningPathId, 10);
+  const userId = parseInt(req.params.userId, 10);
   try {
     await LPInstruction.destroy({ where: { learningPathId } });
 
     for (let instruction of task) {
       await LPInstruction.create({
+        userId,
         learningPathId,
         step: instruction.step,
         solution: instruction.solution,
@@ -32,6 +34,26 @@ const bulkAddLearningPathInstructions = async (
       });
   }
 };
+
+const deleteAllLearningPathInstructions = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const userId = parseInt(req.params.userId, 10);
+  try {
+    await LPInstruction.destroy({ where: { userId} });
+    res
+      .status(200)
+      .json({ message: "All learning path instructions deleted successfully." });
+  } catch (error) {
+    console.error("Error deleting learning path instructions:", error);
+    res
+      .status(500)
+      .json({
+        error: "An error occurred while deleting learning path instructions.",
+      });
+  }
+}
 
 const getLearningPathInstructions = async (
   req: Request,
@@ -53,4 +75,4 @@ const getLearningPathInstructions = async (
   }
 };
 
-export { bulkAddLearningPathInstructions, getLearningPathInstructions };
+export { bulkAddLearningPathInstructions, getLearningPathInstructions, deleteAllLearningPathInstructions };

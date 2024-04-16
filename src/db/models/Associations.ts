@@ -17,4 +17,11 @@ LearningPath.hasMany(LPInstruction, {
   foreignKey: "learningPathId",
 });
 
+LPInstruction.belongsTo(User, {
+  foreignKey: "userId",
+});
+User.hasMany(LPInstruction, {
+  foreignKey: "userId",
+});
+
 export { User, UserRequest, LearningPath, LPInstruction};

@@ -4,6 +4,7 @@ import sequelizeConnection from "../config";
 interface LPInstructionAttributes {
   id: number;
   learningPathId: number;
+  userId: number;
   step: string;
   solution: string;
   createdAt?: Date;
@@ -22,6 +23,7 @@ class LPInstruction
 {
   public id!: number;
   public learningPathId!: number;
+  public userId!: number;
   public step!: string;
   public solution!: string;
 
@@ -41,6 +43,14 @@ LPInstruction.init(
       type: DataTypes.INTEGER,
       references: {
         model: "LearningPath", // Ensure this matches the table name
+        key: "id",
+      },
+      allowNull: false,
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: "User", // Ensure this matches the table name
         key: "id",
       },
       allowNull: false,

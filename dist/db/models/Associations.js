@@ -24,4 +24,10 @@ LPInstruction_1.default.belongsTo(LearningPath_1.default, {
 LearningPath_1.default.hasMany(LPInstruction_1.default, {
     foreignKey: "learningPathId",
 });
+LPInstruction_1.default.belongsTo(User_1.default, {
+    foreignKey: "userId",
+});
+User_1.default.hasMany(LPInstruction_1.default, {
+    foreignKey: "userId",
+});
 //# sourceMappingURL=Associations.js.map
