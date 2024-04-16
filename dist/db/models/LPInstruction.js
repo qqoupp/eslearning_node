@@ -21,6 +21,14 @@ LPInstruction.init({
         },
         allowNull: false,
     },
+    userId: {
+        type: sequelize_1.DataTypes.INTEGER,
+        references: {
+            model: "User", // Ensure this matches the table name
+            key: "id",
+        },
+        allowNull: false,
+    },
     step: {
         type: sequelize_1.DataTypes.TEXT,
         allowNull: false,
