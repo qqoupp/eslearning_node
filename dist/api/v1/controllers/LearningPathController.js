@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.bulkAddLearningPaths = exports.deleteLearningPath = exports.getLearningPath = void 0;
+exports.changeCompletedStatus = exports.bulkAddLearningPaths = exports.deleteLearningPath = exports.getLearningPath = void 0;
 const LearningPath_1 = __importDefault(require("../../../db/models/LearningPath"));
 const getLearningPath = async (req, res) => {
     try {
@@ -64,4 +64,26 @@ const bulkAddLearningPaths = async (req, res) => {
     }
 };
 exports.bulkAddLearningPaths = bulkAddLearningPaths;
+const changeCompletedStatus = async (req, res) => {
+    const { learningPathId } = req.params;
+    try {
+        const learningPath = await LearningPath_1.default.findOne({ where: { id: learningPathId } });
+        if (!learningPath) {
+            res.status(404).json({ message: "Learning path not found." });
+            return;
+        }
+        // Toggle the completed status
+        const newCompletedStatus = !learningPath.completed;
+        await LearningPath_1.default.update({ completed: newCompletedStatus }, { where: { id: learningPathId } });
+        res.status(200).json({
+            message: "Learning path updated successfully.",
+            completed: newCompletedStatus // Optionally return the new status
+        });
+    }
+    catch (error) {
+        console.error("Error updating learning path:", error);
+        res.status(500).json({ error: "An error occurred while updating learning path." });
+    }
+};
+exports.changeCompletedStatus = changeCompletedStatus;
 //# sourceMappingURL=LearningPathController.js.map
