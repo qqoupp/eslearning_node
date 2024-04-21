@@ -7,14 +7,35 @@ exports.login = exports.addUser = void 0;
 const User_1 = __importDefault(require("../../../db/models/User"));
 const Tokens_1 = __importDefault(require("../../../db/models/Tokens"));
 const tockenMiddleware_1 = require("../auth/token/tockenMiddleware");
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
-const bcrypt = require('bcrypt');
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
+const bcrypt = require("bcrypt");
 let refreshed = false;
 const addUser = async (req, res) => {
     try {
+        const existingUser = await User_1.default.findOne({
+            where: { email: req.body.email },
+        });
+        if (existingUser) {
+            res.status(400).json({ error: "User already exists" });
+            return;
+        }
+        // Define password requirements
+        const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,}$/;
+        // Validate password format
+        if (!passwordRegex.test(req.body.password)) {
+            res
+                .status(400)
+                .json({
+                error: "Password must be at least 8 characters long and include at least one number, one uppercase letter, one lowercase letter, and one special character.",
+            });
+            return;
+        }
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
-        const user = await User_1.default.create({ email: req.body.email, username: req.body.username, password: hashedPassword });
+        const user = await User_1.default.create({
+            email: req.body.email,
+            password: hashedPassword,
+        });
         res.status(201).json(user);
     }
     catch (error) {
@@ -69,10 +90,9 @@ const login = async (req, res) => {
         });
     }
     catch (error) {
-        console.log('error', error);
+        console.log("error", error);
         res.status(400).json({ error });
     }
-    ;
 };
 exports.login = login;
 //# sourceMappingURL=UserController.js.map

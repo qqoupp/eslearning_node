@@ -5,18 +5,18 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 
-const generateAccessToken  = (user: { id: number; createdAt:Date; username: string; email: string }) => {
+const generateAccessToken  = (user: { id: number; createdAt:Date; email: string }) => {
     return jwt.sign(
-      { id: user.id, createdAt: user.createdAt, username: user.username, email: user.email },
+      { id: user.id, createdAt: user.createdAt, email: user.email },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: '1m' } 
     );
   };
 
 
-const generateRefreshToken = (user:{id: number; createdAt:Date; username: string; email: string }) => {
+const generateRefreshToken = (user:{id: number; createdAt:Date; email: string }) => {
   return jwt.sign(
-    { id: user.id, createdAt: user.createdAt, username: user.username, email: user.email },
+    { id: user.id, createdAt: user.createdAt, email: user.email },
     process.env.REFRESH_TOKEN_SECRET,
     { expiresIn: '30d' }
   );

@@ -5,8 +5,8 @@ import { get } from 'http';
 
 const addUserRequest = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { userId, technology, input, output } = req.body; 
-        const newUserRequest = await UserRequest.create({ userId, technology, input, output });
+    const { userId, technology, input} = req.body; 
+        const newUserRequest = await UserRequest.create({ userId, technology, input });
 
         res.status(201).json(newUserRequest);
   } catch (error) {

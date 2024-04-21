@@ -7,6 +7,7 @@ import tokenRouter from './tokens'
 import projectIdeasRouter from './projectIdeeas'
 import learningPathRouter from './learningPaths'
 import lpInstructionsRouter from './lpInstructions'
+import lpInstructionsQueryRouter from './lpInstructionsQuery'
 
 const router = Router()
 
@@ -18,6 +19,7 @@ router.use('/tokens', tokenRouter)
 router.use('/projectIdeas', projectIdeasRouter)
 router.use('/learningPaths', learningPathRouter)
 router.use('/lpInstructions', lpInstructionsRouter)
+router.use('/lpInstructionsQuery', lpInstructionsQueryRouter)
 
 
 export default router

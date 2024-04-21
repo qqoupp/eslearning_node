@@ -4,8 +4,8 @@ exports.deleteUserRequest = exports.getAllUserRequestsByUserId = exports.addUser
 const Associations_1 = require("../../../db/models/Associations");
 const addUserRequest = async (req, res) => {
     try {
-        const { userId, technology, input, output } = req.body;
-        const newUserRequest = await Associations_1.UserRequest.create({ userId, technology, input, output });
+        const { userId, technology, input } = req.body;
+        const newUserRequest = await Associations_1.UserRequest.create({ userId, technology, input });
         res.status(201).json(newUserRequest);
     }
     catch (error) {

@@ -12,6 +12,7 @@ const tokens_1 = __importDefault(require("./tokens"));
 const projectIdeeas_1 = __importDefault(require("./projectIdeeas"));
 const learningPaths_1 = __importDefault(require("./learningPaths"));
 const lpInstructions_1 = __importDefault(require("./lpInstructions"));
+const lpInstructionsQuery_1 = __importDefault(require("./lpInstructionsQuery"));
 const router = (0, express_1.Router)();
 router.use('/technologies', technologies_1.default);
 router.use('/users', users_1.default);
@@ -21,5 +22,6 @@ router.use('/tokens', tokens_1.default);
 router.use('/projectIdeas', projectIdeeas_1.default);
 router.use('/learningPaths', learningPaths_1.default);
 router.use('/lpInstructions', lpInstructions_1.default);
+router.use('/lpInstructionsQuery', lpInstructionsQuery_1.default);
 exports.default = router;
 //# sourceMappingURL=index.js.map
