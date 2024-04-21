@@ -5,27 +5,35 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const config_1 = __importDefault(require("../config"));
-class UserRequest extends sequelize_1.Model {
+class LPInstructionQuery extends sequelize_1.Model {
 }
-UserRequest.init({
+LPInstructionQuery.init({
     id: {
         type: sequelize_1.DataTypes.INTEGER.UNSIGNED,
         autoIncrement: true,
         primaryKey: true,
     },
-    userId: {
+    learningPathId: {
         type: sequelize_1.DataTypes.INTEGER,
         references: {
-            model: 'User', // Ensure this matches the table name
-            key: 'id',
+            model: "LearningPath", // Ensure this matches the table name
+            key: "id",
         },
         allowNull: false,
     },
-    technology: {
+    userId: {
+        type: sequelize_1.DataTypes.INTEGER,
+        references: {
+            model: "User", // Ensure this matches the table name
+            key: "id",
+        },
+        allowNull: false,
+    },
+    step: {
         type: sequelize_1.DataTypes.TEXT,
         allowNull: false,
     },
-    input: {
+    solution: {
         type: sequelize_1.DataTypes.TEXT,
         allowNull: false,
     },
@@ -33,7 +41,7 @@ UserRequest.init({
     timestamps: true,
     sequelize: config_1.default,
     // paranoid: true,
-    tableName: 'UserRequest'
+    tableName: "LPInstructionQuery",
 });
-exports.default = UserRequest;
-//# sourceMappingURL=UserRequest.js.map
+exports.default = LPInstructionQuery;
+//# sourceMappingURL=LPInstructionQuery.js.map

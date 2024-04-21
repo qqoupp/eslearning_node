@@ -65,4 +65,32 @@ const bulkAddLearningPaths = async (req: Request, res: Response): Promise<void> 
       res.status(500).json({ error: "An error occurred while adding learning paths." });
     }
   };
-export {getLearningPath, deleteLearningPath, bulkAddLearningPaths };
+
+  const changeCompletedStatus = async (req: Request, res: Response): Promise<void> => {
+    const { learningPathId } = req.params;
+    
+    try {
+      const learningPath = await LearningPath.findOne({ where: { id: learningPathId } });
+  
+      if (!learningPath) {
+        res.status(404).json({ message: "Learning path not found." });
+        return;
+      }
+  
+      // Toggle the completed status
+      const newCompletedStatus = !learningPath.completed;
+  
+      await LearningPath.update({ completed: newCompletedStatus }, { where: { id: learningPathId } });
+  
+      res.status(200).json({ 
+        message: "Learning path updated successfully.",
+        completed: newCompletedStatus // Optionally return the new status
+      });
+    } catch (error) {
+      console.error("Error updating learning path:", error);
+      res.status(500).json({ error: "An error occurred while updating learning path." });
+    }
+  };
+  
+  
+export {getLearningPath, deleteLearningPath, bulkAddLearningPaths, changeCompletedStatus};

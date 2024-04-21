@@ -6,7 +6,6 @@ interface UserRequestAttributes  {
     userId: number;
     technology: string;
     input: string;
-    output: string;
     createdAt?: Date;
     updatedAt?: Date;
     deletedAt?: Date;
@@ -20,7 +19,6 @@ class UserRequest extends Model<UserRequestAttributes, UserRequestInput> impleme
     public userId!: number;
     public technology!: string;
     public input!: string;
-    public output!: string;
 
     // timestamps!
     public readonly createdAt!: Date;
@@ -46,10 +44,6 @@ UserRequest.init({
         allowNull: false,
     },
     input: {
-        type: DataTypes.TEXT,
-        allowNull: false,
-    },
-    output: {
         type: DataTypes.TEXT,
         allowNull: false,
     },
