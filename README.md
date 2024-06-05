@@ -1,4 +1,4 @@
-# llm-uni-node
+# ElevateStackLearning BE
 
 ## Description
 The BE for the ElevateStackLearning website.
