@@ -1,7 +1,8 @@
 # llm-uni-node
 
 ## Description
-``npm i ts-node -g``
+The BE for the ElevateStackLearning website.
+To set it up, create a .env file, similar to the one provided then run the instructions provided.
 
 ## Environment variables
 
@@ -10,14 +11,19 @@ NODE_PORT=6300
 MYSQLDB_USER=root
 MYSQLDB_ROOT_PASSWORD=somepassword
 MYSQLDB_DATABASE=llm_uni
-MYSQLDB_LOCAL_PORT=3306
+MYSQLDB_LOCAL_PORT=3308
 MYSQLDB_DOCKER_PORT=3306
 NODE_LOCAL_PORT=6868
 NODE_DOCKER_PORT=8080
 NODE_ENV=development
+OPENAI_API_KEY =
+ACCESS_TOKEN_SECRET=
+REFRESH_TOKEN_SECRET=
+
 ```
 
 ## Run
+``npm i ts-node -g``
 
 ``npm i``
 
@@ -27,10 +33,3 @@ NODE_ENV=development
 
 ``npm start dev``
 
-### TODO
-
-Create routes and services and controller and data layers like in this tutorial:
-https://blog.logrocket.com/using-sequelize-with-typescript/
-https://www.youtube.com/watch?v=b8ZUb_Okxro&ab_channel=CodeWithAntonio
-
--- Tables and React APIs for the following: User, User_Requests ( user_id, input, output ) .
