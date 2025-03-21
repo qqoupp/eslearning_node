@@ -8,7 +8,12 @@ const app = express();
 dotenv.config();
 
 app.use(helmet());
-app.use(cors());
+app.use(cors({
+  origin: "https://eslearning.co.uk/", 
+  methods: "GET,POST,PUT,DELETE",
+  credentials: true
+}));
+
 app.use(express.json());
 
 const port = process.env.NODE_PORT || 3000; 
